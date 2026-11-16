@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AG CARS KARIMNAGAR — Second-hand Cars</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header with logo + name -->
+  <header class="site-header">
+    <div class="brand">
+      <img src="images/logo.png" alt="AG Cars Logo" class="logo"
+           onerror="this.style.display='none'" />
+      <div class="brand-text">
+        <span class="brand-name">AG CARS</span>
+        <span class="brand-city">KARIMNAGAR</span>
+      </div>
+    </div>
+    <div class="tagline">Quality second-hand cars</div>
+  </header>
+
+  <!-- Customer car grid -->
+  <main>
+    <h1 class="page-title">Available Cars</h1>
+    <section id="car-list" class="car-grid"></section>
+    <p id="empty-msg" class="empty-msg" hidden>No cars available right now. Please check back soon.</p>
+  </main>
+
+  <!-- Car detail popup (hidden until a car is clicked) -->
+  <div id="car-detail" class="detail-overlay" hidden>
+    <div class="detail-box">
+      <button class="close-btn" id="close-detail" aria-label="Close">&times;</button>
+      <div id="detail-content"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>AG CARS KARIMNAGAR &middot; Karimnagar, Telangana</p>
+  </footer>
+
+  <!-- Car data first, then the page logic -->
+  <script src="cars.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

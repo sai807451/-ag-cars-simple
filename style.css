@@ -1,0 +1,130 @@
+/* ---- AG CARS KARIMNAGAR — customer page styles ---- */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f2f3f5;
+  color: #1a1a1a;
+}
+
+/* Header / logo */
+.site-header {
+  background: #0d1b2a;
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo { height: 48px; width: auto; border-radius: 6px; background: #fff; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-name { font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+.brand-city { font-size: 14px; letter-spacing: 3px; color: #e0a526; }
+.tagline { font-size: 14px; color: #b8c2cc; }
+
+/* Page title */
+.page-title {
+  margin: 20px;
+  font-size: 22px;
+}
+
+/* Car grid (OLX-style) */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+  padding: 0 20px 30px;
+}
+
+.car-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,.12);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  display: flex;
+  flex-direction: column;
+}
+.car-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+
+.card-img-wrap { position: relative; height: 180px; background: #e6e8eb; }
+.card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.no-photo {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; color: #8a94a0; font-size: 14px;
+}
+.badge-sold {
+  position: absolute; top: 10px; left: 10px;
+  background: #d32f2f; color: #fff; font-size: 12px; font-weight: 700;
+  padding: 4px 10px; border-radius: 4px;
+}
+
+.card-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.card-price { font-size: 20px; font-weight: 800; color: #0d1b2a; }
+.card-name { font-size: 15px; font-weight: 600; }
+.card-meta { font-size: 13px; color: #5a6470; }
+.card-location { font-size: 12px; color: #8a94a0; }
+
+/* Detail popup */
+.detail-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 20px; overflow-y: auto; z-index: 50;
+}
+.detail-box {
+  background: #fff; border-radius: 12px; max-width: 640px; width: 100%;
+  position: relative; padding: 0 0 20px; overflow: hidden;
+}
+.close-btn {
+  position: absolute; top: 10px; right: 14px;
+  background: rgba(0,0,0,.5); color: #fff; border: none;
+  width: 36px; height: 36px; border-radius: 50%;
+  font-size: 22px; cursor: pointer; line-height: 1; z-index: 2;
+}
+
+.detail-photos { display: flex; overflow-x: auto; gap: 4px; background: #e6e8eb; }
+.detail-photos img { height: 260px; width: auto; object-fit: cover; flex: 0 0 auto; }
+.detail-photos .no-photo { height: 260px; width: 100%; }
+
+.detail-body { padding: 16px 20px; }
+.detail-title { font-size: 22px; font-weight: 800; margin: 0 0 4px; }
+.detail-price { font-size: 26px; font-weight: 800; color: #0d7a3f; margin: 2px 0 14px; }
+
+/* Phone shown FIRST, prominent, with Call button */
+.contact-box {
+  background: #e8f5ec; border: 1px solid #b7e0c4; border-radius: 10px;
+  padding: 14px; margin-bottom: 18px; text-align: center;
+}
+.contact-label { font-size: 13px; color: #0d7a3f; margin-bottom: 6px; }
+.contact-phone { font-size: 20px; font-weight: 800; color: #0d1b2a; margin-bottom: 10px; }
+.call-btn {
+  display: inline-block; background: #0d7a3f; color: #fff;
+  text-decoration: none; font-weight: 700; font-size: 16px;
+  padding: 12px 26px; border-radius: 8px;
+}
+.call-btn:hover { background: #0a6333; }
+
+/* Spec table */
+.spec-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px;
+}
+.spec-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eef0f2; padding: 6px 0; font-size: 14px; }
+.spec-label { color: #5a6470; }
+.spec-value { font-weight: 600; }
+.detail-desc { margin-top: 16px; font-size: 14px; color: #333; line-height: 1.5; }
+
+.empty-msg { text-align: center; color: #8a94a0; padding: 40px; }
+
+.site-footer { text-align: center; padding: 20px; color: #8a94a0; font-size: 13px; }
+
+@media (max-width: 500px) {
+  .spec-grid { grid-template-columns: 1fr; }
+  .brand-name { font-size: 22px; }
+}
