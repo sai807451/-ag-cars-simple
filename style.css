@@ -122,6 +122,19 @@ body {
 
 .empty-msg { text-align: center; color: #8a94a0; padding: 40px; }
 
+/* Map section */
+.map-section { padding: 10px 20px 30px; text-align: center; }
+.map-title { font-size: 20px; margin-bottom: 12px; }
+.map-wrap {
+  max-width: 800px; margin: 0 auto; border-radius: 10px;
+  overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,.12);
+}
+.map-link {
+  display: inline-block; margin-top: 10px; color: #0d7a3f;
+  font-weight: 600; text-decoration: none; font-size: 14px;
+}
+.map-link:hover { text-decoration: underline; }
+
 .site-footer { text-align: center; padding: 20px; color: #8a94a0; font-size: 13px; }
 
 @media (max-width: 500px) {
