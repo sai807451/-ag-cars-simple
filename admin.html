@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — AG CARS KARIMNAGAR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Admin header — separate from the customer page -->
+  <header class="site-header admin-header">
+    <div class="brand">
+      <img src="images/logo.png" alt="AG Cars Logo" class="logo"
+           onerror="this.style.display='none'" />
+      <div class="brand-text">
+        <span class="brand-name">AG CARS</span>
+        <span class="brand-city">KARIMNAGAR</span>
+      </div>
+    </div>
+    <div class="tagline">Admin — Manage Cars</div>
+  </header>
+
+  <main class="admin-main">
+    <p class="admin-note">
+      This page is for you only (not shown to customers). Deleting a car below
+      only removes it on this screen — to make it permanent, copy the updated
+      text at the bottom and save it into your real <code>cars.js</code> file.
+    </p>
+
+    <h1 class="page-title">Current Cars</h1>
+    <div id="admin-list" class="admin-list"></div>
+
+    <h2 class="page-title">Updated cars.js</h2>
+    <p class="admin-note">Copy this text and paste it into <code>cars.js</code> to save your changes.</p>
+    <textarea id="output-box" class="output-box" rows="12" readonly></textarea>
+    <button id="copy-btn" class="call-btn">📋 Copy Updated cars.js</button>
+  </main>
+
+  <script src="cars.js"></script>
+  <script src="adminScript.js"></script>
+</body>
+</html>
