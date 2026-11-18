@@ -2,7 +2,7 @@
 // These values are safe to be public — the unsigned preset only allows uploads into the
 // "ag-cars" folder, nothing else.
 const CLOUDINARY_CLOUD_NAME = "un6e3n3x";
-const CLOUDINARY_UPLOAD_PRESET = "ag_cars_unsigned";
+const CLOUDINARY_UPLOAD_PRESET = "AG_CARS";
 
 function uploadPhotoToCloudinary(file) {
   const url = "https://api.cloudinary.com/v1_1/" + CLOUDINARY_CLOUD_NAME + "/image/upload";
