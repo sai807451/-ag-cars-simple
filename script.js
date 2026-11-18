@@ -1,5 +1,7 @@
 /* ---- AG CARS KARIMNAGAR — customer page logic ---- */
 
+let cars = [];
+
 const listEl = document.getElementById("car-list");
 const emptyMsg = document.getElementById("empty-msg");
 const overlay = document.getElementById("car-detail");
@@ -56,7 +58,7 @@ function renderCars() {
   // Open detail when a card is clicked.
   listEl.querySelectorAll(".car-card").forEach(function (el) {
     el.addEventListener("click", function () {
-      openDetail(Number(el.dataset.id));
+      openDetail(el.dataset.id);
     });
   });
 }
@@ -136,4 +138,13 @@ overlay.addEventListener("click", function (e) {
   if (e.target === overlay) closeDetail();
 });
 
-renderCars();
+db.collection("cars").orderBy("createdAt", "desc").get().then(function (snapshot) {
+  cars = snapshot.docs.map(function (doc) {
+    return Object.assign({ id: doc.id }, doc.data());
+  });
+  renderCars();
+}).catch(function (err) {
+  emptyMsg.textContent = "Could not load cars right now. Please try again later.";
+  emptyMsg.hidden = false;
+  console.error(err);
+});

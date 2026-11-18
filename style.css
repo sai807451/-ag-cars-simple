@@ -189,6 +189,27 @@ body {
   border: 1px solid #ccd2d8; border-radius: 8px; padding: 10px; margin-bottom: 10px;
 }
 
+/* Admin login + add-car form */
+.admin-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px; font-size: 14px; color: #5a6470;
+}
+.admin-form {
+  display: flex; flex-direction: column; gap: 14px;
+  background: #fff; border-radius: 10px; padding: 18px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.08); margin-bottom: 24px;
+}
+.admin-form label {
+  display: flex; flex-direction: column; gap: 4px;
+  font-size: 13px; font-weight: 600; color: #3a4350;
+}
+.admin-form input, .admin-form select, .admin-form textarea {
+  font-size: 15px; padding: 8px 10px; border: 1px solid #ccd2d8;
+  border-radius: 6px; font-family: inherit;
+}
+.form-error { color: #d32f2f; font-size: 13px; margin: 0; }
+.form-status { color: #0d7a3f; font-size: 13px; margin: 0; font-weight: 600; }
+
 @media (max-width: 500px) {
   .spec-grid { grid-template-columns: 1fr; }
   .brand-name { font-size: 22px; }

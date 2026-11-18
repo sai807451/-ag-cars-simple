@@ -20,30 +20,73 @@
     <div class="tagline">Admin — Manage Cars</div>
   </header>
 
-  <main class="admin-main">
-    <p class="admin-note">
-      This page is for you only (not shown to customers). Deleting a car below
-      only removes it on this screen — to make it permanent, copy the updated
-      text at the bottom and save it into your real <code>cars.js</code> file.
-    </p>
+  <!-- Login screen — shown until logged in -->
+  <main id="login-view" class="admin-main">
+    <h1 class="page-title">Admin Login</h1>
+    <form id="login-form" class="admin-form">
+      <label>Email
+        <input type="email" id="login-email" required autocomplete="username" />
+      </label>
+      <label>Password
+        <input type="password" id="login-password" required autocomplete="current-password" />
+      </label>
+      <p id="login-error" class="form-error" hidden></p>
+      <button type="submit" class="call-btn">Log In</button>
+    </form>
+  </main>
+
+  <!-- Admin tools — shown only after login -->
+  <main id="admin-view" class="admin-main" hidden>
+    <div class="admin-topbar">
+      <span id="whoami"></span>
+      <button id="logout-btn" class="delete-btn">Log Out</button>
+    </div>
+
+    <h1 class="page-title">Add a Car</h1>
+    <form id="add-car-form" class="admin-form">
+      <label>Car Name <input type="text" id="f-name" required placeholder="Maruti Swift VXI 2018" /></label>
+      <label>Contact Phone <input type="tel" id="f-phone" required placeholder="+91 98485 33710" /></label>
+      <label>Price <input type="text" id="f-price" required placeholder="₹5,20,000" /></label>
+      <label>Year <input type="number" id="f-year" required placeholder="2018" /></label>
+      <label>Mileage (km) <input type="number" id="f-km" required placeholder="62000" /></label>
+      <label>Fuel Type
+        <select id="f-fuel">
+          <option>Petrol</option><option>Diesel</option><option>CNG</option><option>Electric</option>
+        </select>
+      </label>
+      <label>Transmission
+        <select id="f-trans"><option>Manual</option><option>Automatic</option></select>
+      </label>
+      <label>Colour <input type="text" id="f-color" placeholder="White" /></label>
+      <label>Location <input type="text" id="f-location" value="Karimnagar" /></label>
+      <label>Owner Type <input type="text" id="f-owner" placeholder="First owner" /></label>
+      <label>Insurance Valid
+        <select id="f-insurance"><option value="true">Yes</option><option value="false">No</option></select>
+      </label>
+      <label>Tyre Condition <input type="text" id="f-tyre" placeholder="Good" /></label>
+      <label>Engine Condition <input type="text" id="f-engine" placeholder="Excellent" /></label>
+      <label>Accident History <input type="text" id="f-accident" placeholder="None" /></label>
+      <label>Description
+        <textarea id="f-desc" rows="3" placeholder="Well maintained, single owner..."></textarea>
+      </label>
+      <label>Photos
+        <input type="file" id="f-photos" accept="image/*" multiple required />
+      </label>
+      <p id="add-status" class="form-status" hidden></p>
+      <button type="submit" class="call-btn">Save Car</button>
+    </form>
 
     <h1 class="page-title">Current Cars</h1>
     <div id="admin-list" class="admin-list"></div>
-
-    <h2 class="page-title">Updated cars.js</h2>
-    <p class="admin-note">Copy this text and paste it into <code>cars.js</code> to save your changes.</p>
-    <textarea id="output-box" class="output-box" rows="12" readonly></textarea>
-    <button id="copy-btn" class="call-btn">📋 Copy Updated cars.js</button>
   </main>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="firebase-init.js"></script>
+  <script src="cloudinary-config.js"></script>
 
-  <script src="cars.js"></script>
   <script src="adminScript.js"></script>
 </body>
 </html>
