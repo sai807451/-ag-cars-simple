@@ -134,8 +134,12 @@ function renderAdminList() {
     listEl.innerHTML = snapshot.docs.map(function (doc) {
       const car = doc.data();
       carsById[doc.id] = car;
+      const thumb = car.photos && car.photos[0]
+        ? '<img class="admin-thumb" src="' + esc(car.photos[0]) + '" alt="">'
+        : '<div class="admin-thumb admin-thumb-empty">No photo</div>';
       return (
         '<div class="admin-row">' +
+          thumb +
           '<div class="admin-row-info">' +
             '<strong>' + esc(car.name) + '</strong> — ' + esc(car.price) +
             ' (' + esc(car.year) + ', ' + esc(car.fuelType) + ')' +
@@ -174,6 +178,24 @@ const formTitle = document.getElementById("form-title");
 const saveBtn = document.getElementById("save-btn");
 const cancelEditBtn = document.getElementById("cancel-edit-btn");
 const photosHint = document.getElementById("photos-hint");
+const addCarSection = document.getElementById("add-car-section");
+const toggleAddBtn = document.getElementById("toggle-add-btn");
+
+function showAddCarSection() {
+  addCarSection.hidden = false;
+  toggleAddBtn.textContent = "Hide Form";
+  addCarSection.scrollIntoView({ behavior: "smooth" });
+}
+
+toggleAddBtn.addEventListener("click", function () {
+  if (addCarSection.hidden) {
+    showAddCarSection();
+  } else {
+    addCarSection.hidden = true;
+    toggleAddBtn.textContent = "+ Add New Car";
+    if (editingId) resetFormToAddMode();
+  }
+});
 
 function startEditCar(id) {
   const car = carsById[id];
@@ -201,7 +223,7 @@ function startEditCar(id) {
   saveBtn.textContent = "Save Changes";
   cancelEditBtn.hidden = false;
   photosHint.textContent = "Leave empty to keep the existing photos, or pick new ones to replace them.";
-  addForm.scrollIntoView({ behavior: "smooth" });
+  showAddCarSection();
 }
 
 function resetFormToAddMode() {
@@ -212,6 +234,8 @@ function resetFormToAddMode() {
   saveBtn.textContent = "Save Car";
   cancelEditBtn.hidden = true;
   photosHint.textContent = "";
+  addCarSection.hidden = true;
+  toggleAddBtn.textContent = "+ Add New Car";
 }
 
 cancelEditBtn.addEventListener("click", resetFormToAddMode);

@@ -42,46 +42,51 @@
       <button id="logout-btn" class="delete-btn">Log Out</button>
     </div>
 
-    <h1 class="page-title" id="form-title">Add a Car</h1>
-    <form id="add-car-form" class="admin-form">
-      <label>Car Name <input type="text" id="f-name" required placeholder="Maruti Swift VXI 2018" /></label>
-      <label>Contact Phone <input type="tel" id="f-phone" required placeholder="+91 98485 33710" /></label>
-      <label>Price <input type="text" id="f-price" required placeholder="₹5,20,000" /></label>
-      <label>Year <input type="number" id="f-year" required placeholder="2018" /></label>
-      <label>Mileage (km) <input type="number" id="f-km" required placeholder="62000" /></label>
-      <label>Fuel Type
-        <select id="f-fuel">
-          <option>Petrol</option><option>Diesel</option><option>CNG</option><option>Electric</option>
-        </select>
-      </label>
-      <label>Transmission
-        <select id="f-trans"><option>Manual</option><option>Automatic</option></select>
-      </label>
-      <label>Colour <input type="text" id="f-color" placeholder="White" /></label>
-      <label>Location <input type="text" id="f-location" value="Karimnagar" /></label>
-      <label>Owner Type <input type="text" id="f-owner" placeholder="First owner" /></label>
-      <label>Insurance Valid
-        <select id="f-insurance"><option value="true">Yes</option><option value="false">No</option></select>
-      </label>
-      <label>Tyre Condition <input type="text" id="f-tyre" placeholder="Good" /></label>
-      <label>Engine Condition <input type="text" id="f-engine" placeholder="Excellent" /></label>
-      <label>Accident History <input type="text" id="f-accident" placeholder="None" /></label>
-      <label>Description
-        <textarea id="f-desc" rows="3" placeholder="Well maintained, single owner..."></textarea>
-      </label>
-      <label>Photos
-        <input type="file" id="f-photos" accept="image/*" multiple />
-        <small id="photos-hint"></small>
-      </label>
-      <p id="add-status" class="form-status" hidden></p>
-      <div class="admin-row-actions">
-        <button type="submit" class="call-btn" id="save-btn">Save Car</button>
-        <button type="button" class="delete-btn" id="cancel-edit-btn" hidden>Cancel Edit</button>
-      </div>
-    </form>
-
-    <h1 class="page-title">Current Cars</h1>
+    <div class="admin-list-header">
+      <h1 class="page-title">Current Cars</h1>
+      <button type="button" class="call-btn" id="toggle-add-btn">+ Add New Car</button>
+    </div>
     <div id="admin-list" class="admin-list"></div>
+
+    <div id="add-car-section" hidden>
+      <h1 class="page-title" id="form-title">Add a Car</h1>
+      <form id="add-car-form" class="admin-form">
+        <label>Car Name <input type="text" id="f-name" required placeholder="Maruti Swift VXI 2018" /></label>
+        <label>Contact Phone <input type="tel" id="f-phone" required placeholder="+91 98485 33710" /></label>
+        <label>Price <input type="text" id="f-price" required placeholder="₹5,20,000" /></label>
+        <label>Year <input type="number" id="f-year" required placeholder="2018" /></label>
+        <label>Mileage (km) <input type="number" id="f-km" required placeholder="62000" /></label>
+        <label>Fuel Type
+          <select id="f-fuel">
+            <option>Petrol</option><option>Diesel</option><option>CNG</option><option>Electric</option>
+          </select>
+        </label>
+        <label>Transmission
+          <select id="f-trans"><option>Manual</option><option>Automatic</option></select>
+        </label>
+        <label>Colour <input type="text" id="f-color" placeholder="White" /></label>
+        <label>Location <input type="text" id="f-location" value="Karimnagar" /></label>
+        <label>Owner Type <input type="text" id="f-owner" placeholder="First owner" /></label>
+        <label>Insurance Valid
+          <select id="f-insurance"><option value="true">Yes</option><option value="false">No</option></select>
+        </label>
+        <label>Tyre Condition <input type="text" id="f-tyre" placeholder="Good" /></label>
+        <label>Engine Condition <input type="text" id="f-engine" placeholder="Excellent" /></label>
+        <label>Accident History <input type="text" id="f-accident" placeholder="None" /></label>
+        <label>Description
+          <textarea id="f-desc" rows="3" placeholder="Well maintained, single owner..."></textarea>
+        </label>
+        <label>Photos
+          <input type="file" id="f-photos" accept="image/*" multiple />
+          <small id="photos-hint"></small>
+        </label>
+        <p id="add-status" class="form-status" hidden></p>
+        <div class="admin-row-actions">
+          <button type="submit" class="call-btn" id="save-btn">Save Car</button>
+          <button type="button" class="delete-btn" id="cancel-edit-btn" hidden>Cancel Edit</button>
+        </div>
+      </form>
+    </div>
   </main>
 
   <!-- Car detail popup (same layout the customer page uses) -->
