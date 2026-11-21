@@ -11,12 +11,88 @@ const whoami = document.getElementById("whoami");
 const listEl = document.getElementById("admin-list");
 const addForm = document.getElementById("add-car-form");
 const addStatus = document.getElementById("add-status");
+const overlay = document.getElementById("car-detail");
+const detailContent = document.getElementById("detail-content");
+
+let carsById = {};
 
 function esc(v) {
   return String(v == null ? "" : v)
     .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
+
+function telHref(phone) {
+  return "tel:" + String(phone || "").replace(/[^\d+]/g, "");
+}
+
+function specRow(label, value) {
+  if (value === undefined || value === null || value === "") return "";
+  return '<div class="spec-row"><span class="spec-label">' + esc(label) +
+    '</span><span class="spec-value">' + esc(value) + '</span></div>';
+}
+
+// Show full details for one car — same layout the customer page uses.
+function viewCarDetail(id) {
+  const car = carsById[id];
+  if (!car) return;
+
+  const noPhoto = '<div class="no-photo">No photo</div>';
+  let photosHtml;
+  if (car.photos && car.photos.length) {
+    photosHtml = car.photos.map(function (p) {
+      return '<img src="' + esc(p) + '" alt="' + esc(car.name) +
+        '" onerror="this.style.display=\'none\'">';
+    }).join("");
+  } else {
+    photosHtml = noPhoto;
+  }
+
+  const kms = Number(car.mileageKm).toLocaleString("en-IN") + " km";
+
+  detailContent.innerHTML =
+    '<div class="detail-photos">' + photosHtml + '</div>' +
+    '<div class="detail-body">' +
+      '<h2 class="detail-title">' + esc(car.name) + '</h2>' +
+      '<div class="detail-price">' + esc(car.price) + '</div>' +
+      '<div class="contact-box">' +
+        '<div class="contact-label">Contact number on listing</div>' +
+        '<div class="contact-phone">' + esc(car.contactPhone) + '</div>' +
+        '<a class="call-btn" href="' + telHref(car.contactPhone) + '">📞 Call Now</a>' +
+      '</div>' +
+      '<div class="spec-grid">' +
+        specRow("Make", car.make) +
+        specRow("Model", car.model) +
+        specRow("Year", car.year) +
+        specRow("Kilometres", kms) +
+        specRow("Fuel", car.fuelType) +
+        specRow("Transmission", car.transmission) +
+        specRow("Colour", car.color) +
+        specRow("Owner", car.ownerType) +
+        specRow("Insurance valid", car.insuranceValid === true ? "Yes" :
+                 car.insuranceValid === false ? "No" : "") +
+        specRow("Tyre condition", car.tyreCondition) +
+        specRow("Engine condition", car.engineCondition) +
+        specRow("Accident history", car.accidentHistory) +
+        specRow("Location", car.location) +
+        specRow("Status", car.status) +
+      '</div>' +
+      (car.description ? '<p class="detail-desc">' + esc(car.description) + '</p>' : "") +
+    '</div>';
+
+  overlay.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeDetail() {
+  overlay.hidden = true;
+  document.body.style.overflow = "";
+}
+
+document.getElementById("close-detail").addEventListener("click", closeDetail);
+overlay.addEventListener("click", function (e) {
+  if (e.target === overlay) closeDetail();
+});
 
 // ---- Login ----
 loginForm.addEventListener("submit", function (e) {
@@ -50,22 +126,32 @@ auth.onAuthStateChanged(function (user) {
 function renderAdminList() {
   listEl.innerHTML = '<p class="empty-msg">Loading…</p>';
   carsRef.orderBy("createdAt", "desc").get().then(function (snapshot) {
+    carsById = {};
     if (snapshot.empty) {
       listEl.innerHTML = '<p class="empty-msg">No cars yet.</p>';
       return;
     }
     listEl.innerHTML = snapshot.docs.map(function (doc) {
       const car = doc.data();
+      carsById[doc.id] = car;
       return (
         '<div class="admin-row">' +
           '<div class="admin-row-info">' +
             '<strong>' + esc(car.name) + '</strong> — ' + esc(car.price) +
             ' (' + esc(car.year) + ', ' + esc(car.fuelType) + ')' +
           '</div>' +
-          '<button class="delete-btn" data-id="' + doc.id + '">Delete</button>' +
+          '<div class="admin-row-actions">' +
+            '<button class="view-btn" data-id="' + doc.id + '">View</button>' +
+            '<button class="delete-btn" data-id="' + doc.id + '">Delete</button>' +
+          '</div>' +
         '</div>'
       );
     }).join("");
+    listEl.querySelectorAll(".view-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        viewCarDetail(btn.dataset.id);
+      });
+    });
     listEl.querySelectorAll(".delete-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         if (!confirm("Delete this car listing?")) return;

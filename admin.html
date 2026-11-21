@@ -80,6 +80,14 @@
     <div id="admin-list" class="admin-list"></div>
   </main>
 
+  <!-- Car detail popup (same layout the customer page uses) -->
+  <div id="car-detail" class="detail-overlay" hidden>
+    <div class="detail-box">
+      <button class="close-btn" id="close-detail" aria-label="Close">&times;</button>
+      <div id="detail-content"></div>
+    </div>
+  </div>
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
