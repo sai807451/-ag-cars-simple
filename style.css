@@ -185,6 +185,12 @@ body {
   padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
 }
 .view-btn:hover { background: #0a5c30; }
+.edit-btn {
+  background: #1565c0; color: #fff; border: none; border-radius: 6px;
+  padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.edit-btn:hover { background: #0d4d94; }
+#photos-hint { font-weight: 400; color: #8a94a0; font-size: 12px; }
 .delete-btn {
   background: #d32f2f; color: #fff; border: none; border-radius: 6px;
   padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer;

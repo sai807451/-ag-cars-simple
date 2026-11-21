@@ -142,6 +142,7 @@ function renderAdminList() {
           '</div>' +
           '<div class="admin-row-actions">' +
             '<button class="view-btn" data-id="' + doc.id + '">View</button>' +
+            '<button class="edit-btn" data-id="' + doc.id + '">Edit</button>' +
             '<button class="delete-btn" data-id="' + doc.id + '">Delete</button>' +
           '</div>' +
         '</div>'
@@ -150,6 +151,11 @@ function renderAdminList() {
     listEl.querySelectorAll(".view-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         viewCarDetail(btn.dataset.id);
+      });
+    });
+    listEl.querySelectorAll(".edit-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        startEditCar(btn.dataset.id);
       });
     });
     listEl.querySelectorAll(".delete-btn").forEach(function (btn) {
@@ -161,31 +167,86 @@ function renderAdminList() {
   });
 }
 
-// ---- Add car ----
+// ---- Add / Edit car ----
+let editingId = null;
+
+const formTitle = document.getElementById("form-title");
+const saveBtn = document.getElementById("save-btn");
+const cancelEditBtn = document.getElementById("cancel-edit-btn");
+const photosHint = document.getElementById("photos-hint");
+
+function startEditCar(id) {
+  const car = carsById[id];
+  if (!car) return;
+  editingId = id;
+
+  document.getElementById("f-name").value = car.name || "";
+  document.getElementById("f-phone").value = car.contactPhone || "";
+  document.getElementById("f-price").value = car.price || "";
+  document.getElementById("f-year").value = car.year || "";
+  document.getElementById("f-km").value = car.mileageKm || "";
+  document.getElementById("f-fuel").value = car.fuelType || "Petrol";
+  document.getElementById("f-trans").value = car.transmission || "Manual";
+  document.getElementById("f-color").value = car.color || "";
+  document.getElementById("f-location").value = car.location || "";
+  document.getElementById("f-owner").value = car.ownerType || "";
+  document.getElementById("f-insurance").value = car.insuranceValid ? "true" : "false";
+  document.getElementById("f-tyre").value = car.tyreCondition || "";
+  document.getElementById("f-engine").value = car.engineCondition || "";
+  document.getElementById("f-accident").value = car.accidentHistory || "";
+  document.getElementById("f-desc").value = car.description || "";
+  document.getElementById("f-photos").value = "";
+
+  formTitle.textContent = "Edit Car";
+  saveBtn.textContent = "Save Changes";
+  cancelEditBtn.hidden = false;
+  photosHint.textContent = "Leave empty to keep the existing photos, or pick new ones to replace them.";
+  addForm.scrollIntoView({ behavior: "smooth" });
+}
+
+function resetFormToAddMode() {
+  editingId = null;
+  addForm.reset();
+  document.getElementById("f-location").value = "Karimnagar";
+  formTitle.textContent = "Add a Car";
+  saveBtn.textContent = "Save Car";
+  cancelEditBtn.hidden = true;
+  photosHint.textContent = "";
+}
+
+cancelEditBtn.addEventListener("click", resetFormToAddMode);
+
 addForm.addEventListener("submit", function (e) {
   e.preventDefault();
   const files = document.getElementById("f-photos").files;
-  if (!files.length) return;
+
+  if (!editingId && !files.length) {
+    addStatus.hidden = false;
+    addStatus.textContent = "Please choose at least one photo.";
+    return;
+  }
 
   addStatus.hidden = false;
-  addStatus.textContent = "Uploading photos… 0/" + files.length;
 
   const uploads = [];
   let done = 0;
-  for (let i = 0; i < files.length; i++) {
-    uploads.push(
-      uploadPhotoToCloudinary(files[i]).then(function (url) {
-        done++;
-        addStatus.textContent = "Uploading photos… " + done + "/" + files.length;
-        return url;
-      })
-    );
+  if (files.length) {
+    addStatus.textContent = "Uploading photos… 0/" + files.length;
+    for (let i = 0; i < files.length; i++) {
+      uploads.push(
+        uploadPhotoToCloudinary(files[i]).then(function (url) {
+          done++;
+          addStatus.textContent = "Uploading photos… " + done + "/" + files.length;
+          return url;
+        })
+      );
+    }
   }
 
   Promise.all(uploads)
     .then(function (photoUrls) {
       addStatus.textContent = "Saving car…";
-      return carsRef.add({
+      const data = {
         name: document.getElementById("f-name").value,
         contactPhone: document.getElementById("f-phone").value,
         price: document.getElementById("f-price").value,
@@ -195,21 +256,27 @@ addForm.addEventListener("submit", function (e) {
         transmission: document.getElementById("f-trans").value,
         color: document.getElementById("f-color").value,
         location: document.getElementById("f-location").value,
-        status: "AVAILABLE",
         ownerType: document.getElementById("f-owner").value,
         insuranceValid: document.getElementById("f-insurance").value === "true",
         tyreCondition: document.getElementById("f-tyre").value,
         engineCondition: document.getElementById("f-engine").value,
         accidentHistory: document.getElementById("f-accident").value,
-        description: document.getElementById("f-desc").value,
-        photos: photoUrls,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
+        description: document.getElementById("f-desc").value
+      };
+
+      if (editingId) {
+        if (photoUrls.length) data.photos = photoUrls;
+        return carsRef.doc(editingId).update(data);
+      }
+
+      data.status = "AVAILABLE";
+      data.photos = photoUrls;
+      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      return carsRef.add(data);
     })
     .then(function () {
       addStatus.textContent = "Saved!";
-      addForm.reset();
-      document.getElementById("f-location").value = "Karimnagar";
+      resetFormToAddMode();
       renderAdminList();
       setTimeout(function () { addStatus.hidden = true; }, 2000);
     })
